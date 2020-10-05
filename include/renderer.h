@@ -1,6 +1,6 @@
 #pragma once
 
-#define VIEWPORT_SIZE 100
+#define VIEWPORT_SIZE 20
 
 #include "entity.h"
 
@@ -21,8 +21,8 @@ public:
 		Texture texture = entity.getTexture();
 
 		SDL_Rect dst;
-		dst.x = entity.getX() * VIEWPORT_SCALAR + x_offset; 
-		dst.y = entity.getY() * VIEWPORT_SCALAR + y_offset;
+		dst.x = (entity.getX() - entity.getWidth() / 2) * VIEWPORT_SCALAR + x_offset; 
+		dst.y = (entity.getY() - entity.getHeight() / 2) * VIEWPORT_SCALAR + y_offset;
 		dst.w = entity.getWidth() * VIEWPORT_SCALAR; 
 		dst.h = entity.getHeight() * VIEWPORT_SCALAR;
 

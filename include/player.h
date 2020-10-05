@@ -1,20 +1,23 @@
 #pragma once
 
-#include "entity.h"
+#include "physics_entity.h"
 
-class Player : public Entity {
+class Player : public PhysicsEntity {
 private:
 public:
-	Player(float x, float y, SDL_Texture *texture) { 
-		this->x = x;
-		this->y = y;
-		this->w = 10;
-		this->h = 10;
+	Player(double x, double y, SDL_Texture *texture) { 
+		this->w = 1;
+		this->h = 1;
 
 		SDL_Rect clip;
 		clip.x = 0; clip.y = 0;
 		clip.w = 16; clip.h = 16;
-
 		this->texture = { texture, clip };
+
+		this->p = { x, y };
+		this->v = { 0.0, 0.0 };
+		this->a = { 0.0, -9.8 };
+
+		this->bb = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
 	}
 };

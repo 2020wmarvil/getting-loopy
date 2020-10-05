@@ -5,19 +5,21 @@ struct Texture {
 	SDL_Rect clip;
 };
 
+struct Position { double x; double y; };
+struct BoundingBox { double x1; double x2; double y1; double y2; };
+
 class Entity {
 protected:
-	double x, y;
-	int w, h;
+	double w, h;
 	Texture texture;
+
+	Position p;
+	BoundingBox bb;
 public:
-	double getX() const { return this->x; }
-	double getY() const { return this->y; }
 	double getWidth() const { return this->w; }
 	double getHeight() const { return this->h; }
-
-	void setX(double x) { this->x = x; }
-	void setY(double y) { this->y = y; }
-
 	const Texture& getTexture() const { return this->texture; }
+
+	double getX() const { return this->p.x; }
+	double getY() const { return this->p.y; }
 };
