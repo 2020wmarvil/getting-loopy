@@ -5,7 +5,9 @@
 class Track : public Entity {
 private:
 public:
-	Track(double x, double y, double theta, double track_length, SDL_Texture *texture) { 
+	Track(double x, double y, double theta, double track_length, SDL_Texture *texture, unsigned int id) { 
+		this->id = id;
+
 		this->w = track_length;
 		this->h = 0.2;
 
@@ -18,6 +20,6 @@ public:
 
 		this->p = { x, y };
 
-		this->bb = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
+		this->bounding_box = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
 	}
 };

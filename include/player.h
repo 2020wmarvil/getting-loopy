@@ -5,7 +5,9 @@
 class Player : public PhysicsEntity {
 private:
 public:
-	Player(double x, double y, double theta, SDL_Texture *texture) { 
+	Player(double x, double y, double theta, SDL_Texture *texture, unsigned int id) { 
+		this->id = id;
+
 		this->w = 1;
 		this->h = 1;
 
@@ -20,6 +22,6 @@ public:
 		this->v = { 0.0, 0.0 };
 		this->a = { 0.0, 0.0 };
 
-		this->bb = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
+		this->bounding_box = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
 	}
 };

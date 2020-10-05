@@ -7,6 +7,7 @@
 #include "res_path.h"
 #include "event_handler.h"
 #include "renderer.h"
+#include "collider.h"
 #include "entity.h"
 #include "player.h"
 #include "track.h"
@@ -17,6 +18,8 @@ const int TICKS_PER_FRAME = 1000 / FPS;
 const int win_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MOUSE_CAPTURE;
 
 const std::string resource_path = getResourcePath();
+
+unsigned int entity_ID_counter = 0;
 
 SDL_Texture* loadTexture(const std::string &file, SDL_Renderer *ren);
 void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, SDL_Rect *clip, SDL_Rect *dst);
@@ -32,8 +35,12 @@ int main(int argc, char** argv) {
 	Renderer renderer(ren, win);
 	renderer.setGroundTexture(resource_path + "ground.png");
 
-	Player player(0, 10, 0, renderer.loadTexture(resource_path + "player.png"));
+	Collider collider;
 
+	Player player(0, 10, 0, renderer.loadTexture(resource_path + "player.png"), entity_ID_counter++);
+	collider.addEntity(&player);
+
+	// move this into a level.h file
 	double track_length = 1.0;
 	int num_tracks = 30, radius = 5;
 	std::vector<Track> tracks;
@@ -43,8 +50,10 @@ int main(int argc, char** argv) {
 		double x = radius * cos(theta);
 		double y = radius * sin(theta) + player.getY();
 	
-		Track track(x, y, M_PI / 2 - theta, track_length, renderer.loadTexture(resource_path + "track.png"));
+		Track track(x, y, M_PI / 2 - theta, track_length, renderer.loadTexture(resource_path + "track.png"), entity_ID_counter++);
 		tracks.push_back(track);
+
+		collider.addEntity(&track);
 	}
 
 	SDL_Event event;
@@ -66,6 +75,11 @@ int main(int argc, char** argv) {
 			tick_initial = tick_final;
 
 			double dt = tick_delta / 1000.0;
+
+			// only check for collisions against entities in the current and previous levels
+			// https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+			std::vector<Entity*> collided;
+			collider.collide(&player);
 
 			if (!player.update(dt)) { break; }
 
