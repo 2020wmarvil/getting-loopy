@@ -20,15 +20,15 @@ public:
 	void render(const Entity& entity) {
 		Texture texture = entity.getTexture();
 
-		SDL_Rect dst;
-		dst.x = (entity.getX() - entity.getWidth() / 2) * VIEWPORT_SCALAR + x_offset; 
-		dst.y = (entity.getY() - entity.getHeight() / 2) * VIEWPORT_SCALAR + y_offset;
-		dst.w = entity.getWidth() * VIEWPORT_SCALAR; 
-		dst.h = entity.getHeight() * VIEWPORT_SCALAR;
+		SDL_Rect quad;
+		quad.x = (entity.getX() - entity.getWidth() / 2) * VIEWPORT_SCALAR + x_offset; 
+		quad.y = (entity.getY() - entity.getHeight() / 2) * VIEWPORT_SCALAR + y_offset;
+		quad.w = entity.getWidth() * VIEWPORT_SCALAR; 
+		quad.h = entity.getHeight() * VIEWPORT_SCALAR;
 
-		dst.y = SCREEN_HEIGHT - dst.y - dst.h;
-	
-        	SDL_RenderCopy(this->renderer, texture.texture, &texture.clip, &dst);
+		quad.y = SCREEN_HEIGHT - quad.y - quad.h;
+
+        	SDL_RenderCopyEx(this->renderer, texture.texture, &texture.clip, &quad, entity.getThetaDegrees(), NULL, SDL_FLIP_NONE);
 	}
 
 	void renderGround() {
@@ -38,13 +38,13 @@ public:
 
 		y_offset = thickness / 2;
 
-		SDL_Rect dst;
-		dst.x = -SCREEN_WIDTH / 2; 
-		dst.y = SCREEN_HEIGHT - thickness / 2;
-		dst.w = SCREEN_WIDTH * 2; 
-		dst.h = thickness; 
+		SDL_Rect quad;
+		quad.x = -SCREEN_WIDTH / 2; 
+		quad.y = SCREEN_HEIGHT - thickness / 2;
+		quad.w = SCREEN_WIDTH * 2; 
+		quad.h = thickness; 
 	
-        	SDL_RenderCopy(this->renderer, this->ground_texture, NULL, &dst);
+        	SDL_RenderCopy(this->renderer, this->ground_texture, NULL, &quad);
 	}
 
 	void clear() {

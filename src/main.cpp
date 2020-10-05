@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <SDL_image.h>
@@ -31,10 +32,20 @@ int main(int argc, char** argv) {
 	Renderer renderer(ren, win);
 	renderer.setGroundTexture(resource_path + "ground.png");
 
-	Player player(0, 10, renderer.loadTexture(resource_path + "player.png"));
+	Player player(0, 10, 0, renderer.loadTexture(resource_path + "player.png"));
 
 	double track_length = 1.0;
-	Track track(0, 5, track_length, renderer.loadTexture(resource_path + "track.png"));
+	int num_tracks = 30, radius = 5;
+	std::vector<Track> tracks;
+	for (double i=0; i<num_tracks; i++) {
+		double theta = (i / (num_tracks / 2)) * M_PI;
+
+		double x = radius * cos(theta);
+		double y = radius * sin(theta) + player.getY();
+	
+		Track track(x, y, M_PI / 2 - theta, track_length, renderer.loadTexture(resource_path + "track.png"));
+		tracks.push_back(track);
+	}
 
 	SDL_Event event;
 	EventHandler handler;
@@ -61,7 +72,9 @@ int main(int argc, char** argv) {
 			renderer.clear();
 
 			renderer.render(player);
-			renderer.render(track);
+			for (Track track : tracks) {
+				renderer.render(track);
+			}
 			renderer.renderGround();
 
 			renderer.present();

@@ -23,9 +23,9 @@ public:
 		v.x += a.x * dt;
 		v.y += a.y * dt;
 
-		std::cout << "Variables:\n";
-		std::cout << "\tv: (" << v.x << ", " << v.y << ")\n";
-		std::cout << "\tp: (" << p.x << ", " << p.y << ")\n";
+	//	std::cout << "Variables:\n";
+	//	std::cout << "\tv: (" << v.x << ", " << v.y << ")\n";
+	//	std::cout << "\tp: (" << p.x << ", " << p.y << ")\n";
 
 		return true;
 	}

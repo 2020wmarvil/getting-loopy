@@ -13,6 +13,8 @@ protected:
 	double w, h;
 	Texture texture;
 
+	double theta; // stored in radians
+
 	Position p;
 	BoundingBox bb;
 public:
@@ -22,4 +24,6 @@ public:
 
 	double getX() const { return this->p.x; }
 	double getY() const { return this->p.y; }
+	double getThetaRadians() const { return this->theta; }
+	double getThetaDegrees() const { return this->theta * 180 / M_PI; }
 };
