@@ -10,6 +10,9 @@ protected:
 	Velocity v;
 	Acceleration a;
 public:
+	void setVelocityX(double x) { this->v.x = x; }
+	void setVelocityY(double y) { this->v.y = y; }
+
 	bool update(double dt) {
 		double ground_level = 0.0;
 		if (p.y <= ground_level) {

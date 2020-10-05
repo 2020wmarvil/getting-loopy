@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
 	}
 
 	SDL_Event event;
-	EventHandler handler;
+	EventHandler handler(&player);
 
 	Uint8 tick_initial = SDL_GetTicks();
 	Uint8 tick_final = SDL_GetTicks();
