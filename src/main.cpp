@@ -30,8 +30,9 @@ int main(int argc, char** argv) {
 	SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
 	Renderer renderer(ren, win);
+	renderer.setGroundTexture(resource_path + "ground.png");
 
-	Player player(0.0, 0.0, renderer.loadTexture(resource_path + "player.png"));
+	Player player(0, 0, renderer.loadTexture(resource_path + "player.png"));
 
 	SDL_Event event;
 	EventHandler handler;
@@ -42,6 +43,7 @@ int main(int argc, char** argv) {
 
 		renderer.clear();
 		renderer.render(player);
+		renderer.renderGround();
 		renderer.present();
 
 		std::string error;
