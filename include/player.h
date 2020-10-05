@@ -7,6 +7,7 @@ private:
 public:
 	Player(double x, double y, double theta, SDL_Texture *texture, unsigned int id) { 
 		this->id = id;
+		this->m = 15;
 
 		this->w = 1;
 		this->h = 1;
@@ -21,6 +22,7 @@ public:
 		this->p = { x, y };
 		this->v = { 0.0, 0.0 };
 		this->a = { 0.0, 0.0 };
+		this->f = { 0.0, 0.0 };
 
 		this->computeBoundingBox();
 	}
