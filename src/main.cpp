@@ -43,17 +43,17 @@ int main(int argc, char** argv) {
 	// move this into a level.h file
 	double track_length = 1.0;
 	int num_tracks = 30, radius = 5;
-	std::vector<Track> tracks;
+	std::vector<Track*> tracks;
 	for (double i=0; i<num_tracks; i++) {
 		double theta = (i / (num_tracks / 2)) * M_PI;
 
 		double x = radius * cos(theta);
 		double y = radius * sin(theta) + player.getY();
 	
-		Track track(x, y, M_PI / 2 - theta, track_length, renderer.loadTexture(resource_path + "track.png"), entity_ID_counter++);
+		Track *track = new Track(x, y, M_PI / 2 - theta, track_length, renderer.loadTexture(resource_path + "track.png"), entity_ID_counter++);
 		tracks.push_back(track);
 
-		collider.addEntity(&track);
+		collider.addEntity(track);
 	}
 
 	SDL_Event event;
@@ -78,17 +78,15 @@ int main(int argc, char** argv) {
 
 			// only check for collisions against entities in the current and previous levels
 			// https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-			std::vector<Entity*> collided;
-			collider.collide(&player);
+			std::vector<Collision*> collided = collider.collide(&player);
+			std::cout << collided.size() << std::endl;
 
-			if (!player.update(dt)) { break; }
+			if (!player.update(dt, collided)) { break; }
 
 			renderer.clear();
 
 			renderer.render(player);
-			for (Track track : tracks) {
-				renderer.render(track);
-			}
+			for (Track *track : tracks) renderer.render(*track);
 			renderer.renderGround();
 
 			renderer.present();

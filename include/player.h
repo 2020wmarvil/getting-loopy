@@ -22,6 +22,6 @@ public:
 		this->v = { 0.0, 0.0 };
 		this->a = { 0.0, 0.0 };
 
-		this->bounding_box = { x - w / 2, y - h / 2, x + w / 2, y + h / 2 };
+		this->computeBoundingBox();
 	}
 };

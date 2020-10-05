@@ -1,6 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "entity.h"
+#include "collider.h"
 
 struct Velocity { double x; double y; };
 struct Acceleration { double x; double y; };
@@ -13,7 +16,7 @@ public:
 	void setVelocityX(double x) { this->v.x = x; }
 	void setVelocityY(double y) { this->v.y = y; }
 
-	bool update(double dt) {
+	bool update(double dt, const std::vector<Collision*>& collided) {
 		double ground_level = 0.0;
 		if (p.y <= ground_level) {
 			p.y = ground_level;
@@ -29,6 +32,8 @@ public:
 	//	std::cout << "Variables:\n";
 	//	std::cout << "\tv: (" << v.x << ", " << v.y << ")\n";
 	//	std::cout << "\tp: (" << p.x << ", " << p.y << ")\n";
+	
+		this->computeBoundingBox();
 
 		return true;
 	}

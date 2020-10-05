@@ -6,7 +6,12 @@ struct Texture {
 };
 
 struct Position { double x; double y; };
-struct BoundingBox { double x1; double x2; double y1; double y2; };
+
+struct Point { double x; double y; };
+struct BoundingBox { 
+	Point UL; Point UR;
+	Point LL; Point LR;
+};
 
 class Entity {
 protected:
@@ -19,6 +24,39 @@ protected:
 
 	Position p;
 	BoundingBox bounding_box;
+
+	void computeBoundingBox() {
+		double UL_x = p.x - w / 2; 
+		double UL_y = p.y + h / 2;
+
+		double UR_x = p.x + w / 2;
+		double UR_y = p.y + h / 2;
+
+		double LL_x = p.x - w / 2;
+		double LL_y = p.y - h / 2;
+
+		double LR_x = p.x + w / 2;
+		double LR_y = p.y - h / 2;
+
+		this->bounding_box = { 
+			{ 
+				p.x + (UL_x - p.x)*cos(theta) + (UL_y - p.y)*sin(theta),
+				p.y - (UL_x - p.x)*sin(theta) + (UL_y - p.y)*cos(theta)
+			},
+			{ 
+				p.x + (UR_x - p.x)*cos(theta) + (UR_y - p.y)*sin(theta),
+				p.y - (UR_x - p.x)*sin(theta) + (UR_y - p.y)*cos(theta)
+			},
+			{ 
+				p.x + (LL_x - p.x)*cos(theta) + (LL_y - p.y)*sin(theta),
+				p.y - (LL_x - p.x)*sin(theta) + (LL_y - p.y)*cos(theta)
+			},
+			{ 
+				p.x + (LR_x - p.x)*cos(theta) + (LR_y - p.y)*sin(theta),
+				p.y - (LR_x - p.x)*sin(theta) + (LR_y - p.y)*cos(theta)
+			},
+		};
+	}
 public:
 	unsigned int getID() const { return this->id; }
 
