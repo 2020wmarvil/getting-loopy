@@ -7,3 +7,5 @@ Getting Loopy is a physics based game/interactive simulation where you are trapp
 
 SDL2 is required to run this project.
 [SDL Installation page](https://www.libsdl.org/download-2.0.php)
+
+![image](https://i.imgur.com/tdy0iKW.png)
